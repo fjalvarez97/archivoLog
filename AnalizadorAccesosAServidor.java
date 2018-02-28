@@ -35,7 +35,7 @@ public class AnalizadorAccesosAServidor
                 String linea = sc.nextLine();
                 String[] partes = linea.split(" ");
                 Acceso nuevoAcceso = new Acceso(Integer.parseInt(partes[0]), Integer.parseInt(partes[1]),
-                Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Integer.parseInt(partes[4]));
+                        Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), Integer.parseInt(partes[4]));
                 coleccionAccesos.add(nuevoAcceso);
             }
             sc.close();
@@ -44,5 +44,42 @@ public class AnalizadorAccesosAServidor
             e.printStackTrace();
         }
     }
-   
+
+    public int obtenerHoraMasAccesos()
+    {
+        int numeroADevolver = -1;
+        int contador2 = 0;
+        for (int i = 0; coleccionAccesos.size() > i; i++)
+        {
+            int primerNum = coleccionAccesos.get(i).getHora();
+            int contador = 0;
+            for (int j = 0; coleccionAccesos.size() > j; j++)
+            {
+                int numAComparar = coleccionAccesos.get(j).getHora();
+                if (numAComparar == primerNum)
+                {
+                    contador ++;
+                    if (contador > contador2 )
+                    {
+                        numeroADevolver = primerNum;
+                        contador2 = contador;
+                    }
+                }
+                if (contador == contador2 && primerNum > numeroADevolver)
+                {
+                    numeroADevolver = numAComparar;
+                    contador2 = contador;
+                }
+            }
+        }
+        if (coleccionAccesos.size()==0)
+        {
+            System.out.println("No hay ningun registro");
+        }
+        else
+        {
+            coleccionAccesos.clear();
+        }
+        return numeroADevolver;
+    }
 }
